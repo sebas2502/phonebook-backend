@@ -4,7 +4,7 @@ dotenv.config()
 
 
 
-const password = process.env.password;
+const password = process.env.PASSWORD;
 const url = `mongodb+srv://ricardo250297:${password}@cluster0.bqm9q.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`;
 
 mongoose.set('strictQuery', false);
