@@ -15,10 +15,11 @@ const port = process.env.PORT || 3001;
 
 
 const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
+    
   
-    if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
+    if (error.name === 'ValidationError') {
+        console.log("validation error: ",error)
+      return response.status(400).json({ error: error.message})
     } 
   
     next(error)
@@ -40,7 +41,7 @@ app.get('/api/persons',(req,res)=>{
 })
 
 //Insert new contact
-app.post('/api/persons' , (req,res)=>{
+app.post('/api/persons' , (req,res,next)=>{
     
     //Get content
     const body = req.body;
@@ -54,10 +55,14 @@ app.post('/api/persons' , (req,res)=>{
         number : body.number
     })
 
-    person.save().then(savedPerson => {
+    person.save()
+    .then(savedPerson => {
         res.json(savedPerson)
     })
-
+    .catch(error => {
+       
+       next(error)
+    })
 
 })
 
@@ -100,7 +105,7 @@ app.put('/api/persons/:id' , (req,res,next) => {
         })
         .catch(error => next(error))
 })
-
+app.use(errorHandler)
 
 app.listen(port,()=>{
     console.log("Server ok...")
