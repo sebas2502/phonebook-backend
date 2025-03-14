@@ -9,7 +9,7 @@ const url = `mongodb+srv://ricardo250297:${password}@cluster0.bqm9q.mongodb.net/
 
 mongoose.set('strictQuery', false);
 mongoose.connect(url)
-  .then(result => {
+  .then(() => {
     console.log('Connected to mongoDB')
   })
   .catch((error)=>{
